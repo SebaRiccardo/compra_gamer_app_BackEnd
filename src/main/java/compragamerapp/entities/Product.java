@@ -1,40 +1,46 @@
 package compragamerapp.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import javax.websocket.Encoder.Binary;
+import java.sql.Blob;
 
 
 
 @Entity 
-@Table(name= "Product", uniqueConstraints={@UniqueConstraint(columnNames={"id"})})
+@Table(name= "products", uniqueConstraints={@UniqueConstraint(columnNames={"id"})})
 public class Product {
     
-        @Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
-        private long id;
-
-        private String title;
-        private String type;
-        private String stockStatus;
-        private String productImage;
-        private int quantity;
-        private Purchase purchase;
+    @Id
+ 	@GeneratedValue(strategy= GenerationType.AUTO)
+    private long id;
+    @Column(name = "title")
+    private String title;
+       
+    @Column(name = "type")
+    private String type;
         
-        public Product(String title, String type, String stockStatus, String productImage, int quantity,Client c) {
+    @Column(name = "stock_Status")
+    private String stockStatus;
+    
+    @Column(name = "product_image")
+    private Blob productImage;
+        
+    @Column(name = "quantity")
+    private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name="purchase_id",nullable = false)
+    private Purchase purchase;
+        
+    public Product(String title, String type, String stockStatus, Blob productImage, int quantity) {
               
                 this.title = title;
                 this.type = type;
                 this.stockStatus = stockStatus;
                 this.productImage = productImage;
-                this.quantity = quantity;
-                this.client =c;
-        }
-
-        public long getId() {
+                this.quantity = quantity;  
+    }
+    public long getId() {
 		return id;
 	}
 	public void setId(long id) {
@@ -58,12 +64,7 @@ public class Product {
 	public void setStockStatus(String stockStatus) {
 		this.stockStatus = stockStatus;
 	}
-	public String getProductImage() {
-		return productImage;
-	}
-	public void setProductImage(String productImage) {
-		this.productImage = productImage;
-	}
+	
 	public int getQuantity() {
 		return quantity;
 	}
@@ -71,20 +72,22 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-        public Purchase getPurchase() {
+    public Purchase getPurchase() {
             return purchase;
-        }
+    }
 
-        public void setPurchase(Purchase purchase) {
+    public void setPurchase(Purchase purchase) {
             this.purchase = purchase;
-        }
+    }
 
-        public Client getClient() {
-            return client;
-        }
+    public Blob getProductImage() {
+        return productImage;
+    }
 
-        public void setClient(Client client) {
-            this.client = client;
-        }
+    public void setProductImage(Blob productImage) {
+        this.productImage = productImage;
+    }
+    
+
 }
 		

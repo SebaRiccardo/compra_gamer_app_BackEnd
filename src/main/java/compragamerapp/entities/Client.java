@@ -1,21 +1,14 @@
 package compragamerapp.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 
 
 @Entity 
-@Table(name= "client", uniqueConstraints={@UniqueConstraint(columnNames={"id"})})
+@Table(name= "clients", uniqueConstraints={@UniqueConstraint(columnNames={"id"})})
 public class Client {
 	
 	@Id
@@ -39,10 +32,9 @@ public class Client {
 
 	@Column(name="purchases")
 	@OneToMany(mappedBy="client",cascade= CascadeType.ALL)
-    private ArrayList <Purchase> purchases = new ArrayList<>();
+    private List <Purchase> purchases;
 
-	public Client(String name, String lastName, String phone, String address, String email,ArrayList<Purchase> purchases) {
-		
+	public Client(String name, String lastName, String phone, String address, String email,ArrayList<Purchase> purchases) {	
 		this.name = name;
 		this.lastName = lastName;
 		this.phoneNumber = phone;
@@ -54,7 +46,6 @@ public class Client {
 	public void setId(long id) {
 		this.id = id;
 	}
-
 	public long getId() {
 		return id;
 	}
@@ -89,12 +80,11 @@ public class Client {
 		this.email = email;
     }
     
-	public ArrayList<Purchase> getPurchases() {
+	public List<Purchase> getPurchases() {
 		return purchases;
 	}
-	public void setPurchases(ArrayList<Purchase> purchases) {
+	public void setPurchases(List<Purchase> purchases) {
 		this.purchases = purchases;
 	}
-
 }
 	
