@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import compragamerapp.entities.Purchase;
 import compragamerapp.repository.PurchaseRepository;
-import compragamerapp.repository.productRepository;
+
 
 @Service
 public class PurchaseService {
@@ -17,7 +17,7 @@ public class PurchaseService {
     public List<Purchase> getAll(){
         return purchaseRepository.findAll();
     } 
-    public  Purchase findById(Long id){
+    public  Purchase getPurchase(Long id){
         return  purchaseRepository.findById(id).orElse(null);
     }
     public Purchase savePurchase(Purchase purchase){

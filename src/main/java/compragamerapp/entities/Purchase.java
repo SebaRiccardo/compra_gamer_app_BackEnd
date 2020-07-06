@@ -27,8 +27,12 @@ public class Purchase {
     private Client client;
 
     @OneToMany(mappedBy = "purchase",cascade = CascadeType.ALL)
-    private List<Product> purchasedProducts;
-    
+    private List<ItemToPurchase> purchasedItems;
+	
+	public Purchase(){
+
+	}
+	
 	public Purchase(float amount, Date date) {
 		
 		this.amount = amount;
@@ -55,11 +59,4 @@ public class Purchase {
 		this.date = date;
 	}
 
-    public List<Product> getPurchasedProducts() {
-        return purchasedProducts;
-    }
-
-    public void setPurchasedProducts(ArrayList<Product> purchasedProducts) {
-        this.purchasedProducts = purchasedProducts;
-    }
 }
