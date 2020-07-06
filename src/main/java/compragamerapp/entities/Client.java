@@ -34,6 +34,9 @@ public class Client {
 	@OneToMany(mappedBy="client",cascade= CascadeType.ALL)
     private List <Purchase> purchases;
 
+	public Client(){
+		
+	}
 	public Client(String name, String lastName, String phone, String address, String email,ArrayList<Purchase> purchases) {	
 		this.name = name;
 		this.lastName = lastName;
