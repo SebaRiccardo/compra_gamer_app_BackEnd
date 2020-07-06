@@ -1,5 +1,6 @@
 package compragamerapp.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,12 @@ public class ProductController {
         }else{
             return new ResponseEntity(new ResponseError(400, String.format("Informacion faltante")), HttpStatus.BAD_REQUEST);
         } 
+    }
+
+    @PostMapping(value= "/allProducts")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody 
+    public List<Product> saveProductList(@RequestBody List<Product> products){
+        return productService.saveAll(products);   
     }
 }

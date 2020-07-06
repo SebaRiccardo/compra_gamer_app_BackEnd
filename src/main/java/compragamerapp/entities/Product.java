@@ -3,6 +3,7 @@ package compragamerapp.entities;
 import javax.persistence.*;
 import javax.websocket.Encoder.Binary;
 import java.sql.Blob;
+import java.util.List;
 
 
 
@@ -15,6 +16,9 @@ public class Product {
     private long id;
     @Column(name = "title")
     private String title;
+
+    @Column(name="price")
+    private float price;
        
     @Column(name = "type")
     private String type;
@@ -24,22 +28,15 @@ public class Product {
     
     @Column(name = "product_image")
     private Blob productImage;
-        
-    @Column(name = "quantity")
-    private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name="purchase_id",nullable = false)
-    private Purchase purchase;
-        
-    public Product(String title, String type, String stockStatus, Blob productImage, int quantity) {
-              
-                this.title = title;
-                this.type = type;
-                this.stockStatus = stockStatus;
-                this.productImage = productImage;
-                this.quantity = quantity;  
+    @OneToMany(mappedBy = "productToPurchase",cascade = CascadeType.ALL)
+    private List<ItemToPurchase> item;
+
+    public Product(){
+
     }
+
+    
     public long getId() {
 		return id;
 	}
@@ -65,27 +62,20 @@ public class Product {
 		this.stockStatus = stockStatus;
 	}
 	
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-    public Purchase getPurchase() {
-            return purchase;
-    }
-
-    public void setPurchase(Purchase purchase) {
-            this.purchase = purchase;
-    }
-
     public Blob getProductImage() {
         return productImage;
     }
 
     public void setProductImage(Blob productImage) {
         this.productImage = productImage;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
     
 
