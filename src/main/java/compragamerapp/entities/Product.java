@@ -1,9 +1,9 @@
 package compragamerapp.entities;
 
 import javax.persistence.*;
-import javax.websocket.Encoder.Binary;
+
 import java.sql.Blob;
-import java.util.List;
+
 
 
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class Product {
     
     @Id
- 	@GeneratedValue(strategy= GenerationType.AUTO)
+ 	@GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     @Column(name = "title")
     private String title;
@@ -27,10 +27,8 @@ public class Product {
     private String stockStatus;
     
     @Column(name = "product_image")
+    @Lob()
     private Blob productImage;
-
-    @OneToMany(mappedBy = "productToPurchase",cascade = CascadeType.ALL)
-    private List<ItemToPurchase> item;
 
     public Product(){
 
