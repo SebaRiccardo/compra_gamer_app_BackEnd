@@ -1,5 +1,6 @@
 package compragamerapp.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import compragamerapp.entities.ItemToPurchase;
+import compragamerapp.entities.Product;
 import compragamerapp.entities.Purchase;
 import compragamerapp.entities.ResponseError;
+import compragamerapp.services.ClientService;
+import compragamerapp.services.ItemTopurchaseService;
+import compragamerapp.services.ProductService;
 import compragamerapp.services.PurchaseService;
 
 @RestController
@@ -22,6 +28,13 @@ public class PurchaseController {
     
     @Autowired 
     PurchaseService purchaseService;
+    @Autowired
+    ClientService clientService;
+    @Autowired
+    ItemTopurchaseService ITPService;
+    @Autowired
+    ProductService productService;
+
 
     @GetMapping(value = "/purchases")
     @ResponseBody
@@ -32,7 +45,10 @@ public class PurchaseController {
     @GetMapping(value = "/purchase/{id}")
     @ResponseBody
     public Object getProduct(@PathVariable("id") long purchaseId) {
+        
         Purchase purchase = purchaseService.getPurchase(purchaseId);
+       /// logica para buscar todos los productos asociados a dicha compra, primero
+       
         if (purchase == null) {
             return new ResponseEntity( new ResponseError( 404, String.format("La venta con id: %d no existe", purchaseId)),HttpStatus.NOT_FOUND);
         }
@@ -44,9 +60,28 @@ public class PurchaseController {
     public Object savePurchase(@RequestBody Purchase purchase){
         
         if(purchase!=null){
-            return purchaseService.savePurchase(purchase);
+           List<Product> products;
+           Purchase savedPurchase;
+           List<ItemToPurchase> items = new ArrayList<>();
+           
+           products= purchase.getPurchasedItems();
+                      
+           savedPurchase= purchaseService.savePurchase(purchase);
+           
+           for(Product p: products){
+            ItemToPurchase item = new ItemToPurchase();
+            item.setPricePerItem(p.getPrice());
+            item.setProduct_id(p.getId());
+            item.setPurchase_id(savedPurchase.getNro());
+            item.setQuantity(1);
+            items.add(item);
+           }   
+           ITPService.saveAll(items);
+           return savedPurchase;
         }else{
-            return new ResponseEntity(new ResponseError(400, String.format("Informacion de compra faltante")), HttpStatus.BAD_REQUEST);
+           
+            return new ResponseEntity(new ResponseError(400, "Request mal formado"), HttpStatus.BAD_REQUEST);
+        
         }
 
     }
