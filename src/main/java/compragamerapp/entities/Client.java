@@ -12,7 +12,8 @@ import javax.persistence.*;
 public class Client {
 	
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name="ID")
 	private long id;
 
 	@Column(name="name")
@@ -29,22 +30,13 @@ public class Client {
 
 	@Column(name="email_address")
 	private String email;
-
-	@Column(name="purchases")
-	@OneToMany(mappedBy="client",cascade= CascadeType.ALL)
+	@Transient
     private List <Purchase> purchases;
 
 	public Client(){
 		
 	}
-	public Client(String name, String lastName, String phone, String address, String email,ArrayList<Purchase> purchases) {	
-		this.name = name;
-		this.lastName = lastName;
-		this.phoneNumber = phone;
-		this.address = address;
-		this.email = email;
-		this.purchases = purchases;
-	}
+	
 
 	public void setId(long id) {
 		this.id = id;
@@ -82,12 +74,6 @@ public class Client {
 	public void setEmail(String email) {
 		this.email = email;
     }
-    
-	public List<Purchase> getPurchases() {
-		return purchases;
-	}
-	public void setPurchases(List<Purchase> purchases) {
-		this.purchases = purchases;
-	}
+   
 }
 	
