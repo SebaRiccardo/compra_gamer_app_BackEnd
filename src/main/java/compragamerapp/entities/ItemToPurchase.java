@@ -4,12 +4,12 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name= "itemsToPurchase", uniqueConstraints={@UniqueConstraint(columnNames={"itemId"})})
+@Table(name= "purchasedProducts", uniqueConstraints={@UniqueConstraint(columnNames={"itemId"})})
 public class ItemToPurchase{
 
 
     @Id
- 	@GeneratedValue(strategy= GenerationType.AUTO)
+ 	@GeneratedValue(strategy= GenerationType.IDENTITY)
     private long itemId;
 
     @Column(name="price_Per_Item")
@@ -18,13 +18,11 @@ public class ItemToPurchase{
     @Column(name="quantity")
     private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name="product_id",nullable = false)
-    private Product productToPurchase; 
+    @Column(name="product_id")
+    private long product_id; 
 
-    @ManyToOne
-    @JoinColumn(name="puchase_id",nullable =false)
-    private Purchase purchase;
+    @Column(name="puchase_id")
+    private long purchase_id;
 
 
     public ItemToPurchase(){
@@ -54,20 +52,20 @@ public class ItemToPurchase{
         this.quantity = quantity;
     }
 
-    public Product getProductToPurchase() {
-        return productToPurchase;
+    public long getProduct_id() {
+        return product_id;
     }
 
-    public void setProductToPurchase(Product productToPurchase) {
-        this.productToPurchase = productToPurchase;
-    }
-/*
-    public Purchase getPurchase() {
-        return purchase;
+    public void setProduct_id(long product_id) {
+        this.product_id = product_id;
     }
 
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
+    public long getPurchase_id() {
+        return purchase_id;
     }
-   */ 
+
+    public void setPurchase_id(long purchase_id) {
+        this.purchase_id = purchase_id;
+    }
+
 }
