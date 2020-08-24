@@ -35,7 +35,6 @@ public class PurchaseController {
     @Autowired
     ProductService productService;
 
-
     @GetMapping(value = "/purchases")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -54,6 +53,7 @@ public class PurchaseController {
         }
         return purchase;
     }
+    
     @PostMapping(value="/purchases")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
